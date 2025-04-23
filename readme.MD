@@ -1,3 +1,6 @@
+Roboshop DEV Infrastructure
+
+
 * Make sure infra is created.
 * Every resource should have dev in its name, so that it will not overlap with prod resources.
 
@@ -14,15 +17,19 @@ RDS Configuration
 
 * Since we are using RDS instead of MySQL image, we need to configure RDS manually, we are creating schema as part of RDS but table  
     and    user should be created.
+
 * Make sure MySQL instance allows port no 3306 from bastion
-
+---
 mysql -h roboshop-dev.czn6yzxlcsiv.us-east-1.rds.amazonaws.com -u root -pRoboShop1
-
+---
 * Clone shipping component into bastion
 
+---
 git clone https://github.com/daws-81s/shipping.git
+---
 
 * Load the data into mysql
+
 ---
 mysql -h roboshop-dev.czn6yzxlcsiv.us-east-1.rds.amazonaws.com -u root -pRoboShop1 < shipping/db/schema.sql
 
