@@ -55,11 +55,13 @@ aws configure
 aws eks update-kubeconfig --region us-east-1 --name roboshop-dev
 
 kubectl get nodes
----
+
 kubectl create namespace roboshop
 ---
 
-* IAM policy
+* IAM Role created
+
+---
 aws iam create-policy \
     --policy-name AWSLoadBalancerControllerIAMPolicy \
     --policy-document file://iam-policy.json
