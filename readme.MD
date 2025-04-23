@@ -1,4 +1,4 @@
-Roboshop DEV Infrastructure
+### Roboshop DEV Infrastructure
 
 
 * Make sure infra is created.
@@ -13,7 +13,7 @@ We are using bastion as our EKS client, so it will have
 * helm
 * aws configure
 
-RDS Configuration
+### RDS Configuration
 
 * Since we are using RDS instead of MySQL image, we need to configure RDS manually, we are creating schema as part of RDS but table  
     and    user should be created.
@@ -29,7 +29,6 @@ git clone https://github.com/daws-81s/shipping.git
 ---
 
 * Load the data into mysql
-
 ---
 mysql -h roboshop-dev.czn6yzxlcsiv.us-east-1.rds.amazonaws.com -u root -pRoboShop1 < shipping/db/schema.sql
 
@@ -37,6 +36,7 @@ mysql -h roboshop-dev.czn6yzxlcsiv.us-east-1.rds.amazonaws.com -u root -pRoboSho
 
 mysql -h roboshop-dev.czn6yzxlcsiv.us-east-1.rds.amazonaws.com -u root -pRoboShop1 < shipping/db/master-data.sql
 ---
+
 Target group binding
 
 * If we are running frontend using normal user it can't bind the port 80. non root privelege user running container are not able to open system ports which are under 1024.
@@ -46,7 +46,7 @@ Target group binding
     ALB target group health check port should be 8080.
     frontend service target port should be 8080 instead of 80.
 
-Ingress Controller
+### Ingress Controller
 
 * Login to bastion host and get the kubeconfig of EKS cluster
 ---
@@ -60,7 +60,6 @@ kubectl create namespace roboshop
 ---
 
 * IAM Role created
-
 ---
 aws iam create-policy \
     --policy-name AWSLoadBalancerControllerIAMPolicy \
@@ -68,7 +67,6 @@ aws iam create-policy \
 ---
 
 * Create Service account. Replace your account ID.
-
 ---
 eksctl create iamserviceaccount \
 --cluster=expense-dev \
@@ -81,7 +79,6 @@ eksctl create iamserviceaccount \
 ---
 
 * Install aws load balancer controller drivers through helm.
-
 ---
 helm repo add eks https://aws.github.io/eks-charts
 
@@ -89,7 +86,6 @@ helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n ku
 ---
 
 * Make sure load balancer pods are running
-
 ---
 kubectl get pods -n kube-system
 NAME                                            READY   STATUS    RESTARTS   AGE
