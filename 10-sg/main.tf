@@ -125,14 +125,14 @@ resource "aws_security_group_rule" "bastion_public" {
   security_group_id = module.bastion_sg.sg_id
 }
 
-# resource "aws_security_group_rule" "node_ingress_alb" {
-#   type              = "ingress"
-#   from_port         = 30000
-#   to_port           = 32767
-#   protocol          = "tcp"
-#   source_security_group_id = module.ingress_alb_sg.sg_id
-#   security_group_id = module.eks_node_sg.sg_id
-#}
+resource "aws_security_group_rule" "node_ingress_alb" {
+  type              = "ingress"
+  from_port         = 30000
+  to_port           = 32767
+  protocol          = "tcp"
+  source_security_group_id = module.ingress_alb_sg.sg_id
+  security_group_id = module.eks_node_sg.sg_id
+}
 
 resource "aws_security_group_rule" "mysql_bastion" {
   type              = "ingress"
