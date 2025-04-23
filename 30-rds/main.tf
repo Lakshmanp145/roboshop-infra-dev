@@ -11,7 +11,7 @@ module "db" {
   db_name  = "transactions" #AWS will create this schema automatically
   username = "root"
   port     = "3306"
-  password = "ExpenseApp1"
+  password = "RoboShop1"
   manage_master_user_password = false
   skip_final_snapshot = true
 
@@ -68,7 +68,7 @@ module "db" {
 
 resource "aws_route53_record" "www" {
   zone_id = var.zone_id
-  name    = "mysql-${var.environment}.${var.domain_name}"
+  name    = "roboshop-${var.environment}.${var.domain_name}"
   type    = "CNAME"
   ttl     = 1
   records = [module.db.db_instance_address]
