@@ -19,16 +19,17 @@ RDS Configuration
 mysql -h roboshop-dev.czn6yzxlcsiv.us-east-1.rds.amazonaws.com -u root -pRoboShop1
 
 * Clone shipping component into bastion
+
 git clone https://github.com/daws-81s/shipping.git
 
 * Load the data into mysql
-
+---
 mysql -h roboshop-dev.czn6yzxlcsiv.us-east-1.rds.amazonaws.com -u root -pRoboShop1 < shipping/db/schema.sql
 
 mysql -h roboshop-dev.czn6yzxlcsiv.us-east-1.rds.amazonaws.com -u root -pRoboShop1 < shipping/db/app-user.sql
 
 mysql -h roboshop-dev.czn6yzxlcsiv.us-east-1.rds.amazonaws.com -u root -pRoboShop1 < shipping/db/master-data.sql
-
+---
 Target group binding
 
 * If we are running frontend using normal user it can't bind the port 80. non root privelege user running container are not able to open system ports which are under 1024.
@@ -41,22 +42,25 @@ Target group binding
 Ingress Controller
 
 * Login to bastion host and get the kubeconfig of EKS cluster
-
+---
 aws configure
 
 aws eks update-kubeconfig --region us-east-1 --name roboshop-dev
 
 kubectl get nodes
-
+---
 kubectl create namespace roboshop
+---
 
 * IAM policy
 aws iam create-policy \
     --policy-name AWSLoadBalancerControllerIAMPolicy \
     --policy-document file://iam-policy.json
+---
 
 * Create Service account. Replace your account ID.
 
+---
 eksctl create iamserviceaccount \
 --cluster=expense-dev \
 --namespace=kube-system \
@@ -65,15 +69,19 @@ eksctl create iamserviceaccount \
 --override-existing-serviceaccounts \
 --region us-east-1 \
 --approve
+---
 
 * Install aws load balancer controller drivers through helm.
 
+---
 helm repo add eks https://aws.github.io/eks-charts
 
 helm install aws-load-balancer-controller eks/aws-load-balancer-controller -n kube-system --set clusterName=expense-dev --set serviceAccount.create=true --set serviceAccount.name=aws-load-balancer-controller
+---
 
 * Make sure load balancer pods are running
 
+---
 kubectl get pods -n kube-system
 NAME                                            READY   STATUS    RESTARTS   AGE
 aws-load-balancer-controller-689495d45f-mwmg6   0/1     Running   0          8s
@@ -86,3 +94,4 @@ eks-pod-identity-agent-9ngdt                    1/1     Running   0          5m1
 eks-pod-identity-agent-cj98g                    1/1     Running   0          5m17s
 kube-proxy-7sgw7                                1/1     Running   0          6m4s
 kube-proxy-8zb7z                                1/1     Running   0          6m5s
+----
