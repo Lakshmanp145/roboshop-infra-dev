@@ -26,13 +26,13 @@ git clone https://github.com/daws-81s/shipping.git
 ```
 * Load the data into mysql
 ```
-mysql -h roboshop-dev.lakshman.site root -pRoboShop1 < shipping/db/schema.sql
+mysql -h roboshop-dev.lakshman.site -u root -pRoboShop1 < shipping/db/schema.sql
 ```
 ```
-mysql -h roboshop-dev.lakshman.site root -u root -pRoboShop1 < shipping/db/app-user.sql
+mysql -h roboshop-dev.lakshman.site -u root -pRoboShop1 < shipping/db/app-user.sql
 ```
 ```
-mysql -h roboshop-dev.lakshman.site root -u root -pRoboShop1 < shipping/db/master-data.sql
+mysql -h roboshop-dev.lakshman.site -u root -pRoboShop1 < shipping/db/master-data.sql
 ```
 
 ## Target group binding
